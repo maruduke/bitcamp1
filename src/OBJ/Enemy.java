@@ -13,20 +13,16 @@ public abstract class Enemy extends Character{
         this.image = image;
     }
 
-    int tech1(Enemy enemy, List<Character> characters) {
-        // 평타
-        return stat.getAttackPoint();
-    };
+    @Override
+    public void activate(Enemy enemy, List<Player> players) {
+        int i = 4;
 
-    public abstract void tech2(Enemy enemy, List<Character> characters);
-    public abstract void tech3(Enemy enemy, List<Character> characters);
-    public abstract void tech4(Enemy enemy, List<Character> characters);
+        if(i == 1)
+            tech1(enemy, players);
+        else if(i == 2)
+            tech2(enemy, players);
+    }
 
-
-
-    public void activate(Enemy enemy, Vector<Player> characters) {
-
-    };
 
 }
 

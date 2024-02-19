@@ -1,6 +1,5 @@
 package Game;
 
-import OBJ.Character;
 import OBJ.Enemy;
 import OBJ.EnemyCharacter.EnemyFactory;
 import OBJ.Player;
@@ -31,21 +30,12 @@ public class Poketmon implements Game{
         Player player = new Player(new Stat(), socket);
         players.add(player);
         sequence.add(player);
-    }
 
-
-
-    @Override
-    public void waitGame() {
-        // 인원 수 충족시 까지 기다림
-        while(true) {
-            if (players.size() == 2) {
-                break;
-            }
+        if(players.size() == 2) {
+            start();
         }
-
-        start();
     }
+
 
     @Override
     public void start() {
@@ -59,7 +49,7 @@ public class Poketmon implements Game{
                 sequence.add(player);
             }
 
-            player.activate(enemy, players);
+            player.activate(enemy, players.stream().toList());
 
             if(enemy.isDead()) {
                 System.out.println("you win");
@@ -72,6 +62,6 @@ public class Poketmon implements Game{
         }
 
         System.out.println("loser");
-        return;
+
     }
 }

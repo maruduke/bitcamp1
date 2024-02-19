@@ -5,6 +5,5 @@ import java.net.Socket;
 public interface Game {
 
     public void enterRoom(Socket socket);
-    public void waitGame();
     public void start();
 }

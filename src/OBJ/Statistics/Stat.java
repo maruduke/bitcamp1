@@ -55,9 +55,15 @@ public class Stat {
         return defencePoint;
     }
 
-    public void hit(int damage) {
+    public int hit(int damage) {
         int RealDamage = damage - this.defencePoint < 0 ? damage - this.defencePoint: 1;
         this.hp -= RealDamage;
+        return RealDamage;
+    }
+
+    public int heal(int heal) {
+        this.hp = this.hp + heal >= max_hp ? max_hp : this.hp + heal;
+        return heal;
     }
 
     public boolean isDead() {
