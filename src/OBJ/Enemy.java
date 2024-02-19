@@ -1,16 +1,31 @@
 package OBJ;
 
+import OBJ.Statistics.Stat;
+
+import java.util.List;
+
 public abstract class Enemy extends Character{
     String image;
 
-    Enemy(String name, int hp, int pp, int attackPoint, int defencePoint, String image) {
-        super(name, hp, pp, attackPoint, defencePoint);
+    protected Enemy(Stat stat, String image) {
+        super(stat);
         this.image = image;
     }
 
-    @Override
-    void activate() {
-        // 행동
-    }
+    int tech1(Enemy enemy, List<Character> characters) {
+        // 평타
+        return stat.getAttackPoint();
+    };
+
+    public abstract void tech2(Enemy enemy, List<Character> characters);
+    public abstract void tech3(Enemy enemy, List<Character> characters);
+    public abstract void tech4(Enemy enemy, List<Character> characters);
+
+
+
+    public void activate(int command, Enemy enemy, List<Character> characters) {
+
+    };
+
 }
 
