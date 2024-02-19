@@ -26,14 +26,15 @@ public abstract class Character {
         this.hp -= (damage-defencePoint);
     }
 
-    abstract void activate();
+
     int tech1() {
         // 평타
         return attackPoint;
     };
 
-    protected abstract void tech2();
-    abstract void tech3();
-    abstract void tech4();
+    abstract void activate();
+    public abstract void tech2();
+    public abstract void tech3();
+    public abstract void tech4();
 
 }
