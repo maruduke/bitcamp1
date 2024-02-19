@@ -8,7 +8,7 @@ public class Poketmon implements Game{
 
     Hashtable<String, Socket> sockets;
     Hashtable<String, String> command = new Hashtable();
-    // 나는 멍청이다.
+
     @Override
     public void enterRoom(String name, Socket socket) {
         // 게임 방문자
