@@ -3,6 +3,7 @@ package OBJ;
 import OBJ.Statistics.Stat;
 
 import java.util.List;
+import java.util.Vector;
 
 public abstract class Enemy extends Character{
     String image;
@@ -23,7 +24,7 @@ public abstract class Enemy extends Character{
 
 
 
-    public void activate(int command, Enemy enemy, List<Character> characters) {
+    public void activate(Enemy enemy, Vector<Player> characters) {
 
     };
 

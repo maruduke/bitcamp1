@@ -14,10 +14,11 @@ public abstract class Character {
     }
 
 
-
     void hit(int damage) {
         this.stat.hit(damage);
     }
 
-
+    public boolean isDead() {
+        return stat.getHp() <= 0 ? true : false;
+    }
 }

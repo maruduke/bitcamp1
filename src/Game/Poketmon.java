@@ -2,20 +2,19 @@ package Game;
 
 import OBJ.Character;
 import OBJ.Enemy;
-import OBJ.EnemyCharacter.Devil;
 import OBJ.EnemyCharacter.EnemyFactory;
 import OBJ.Player;
 import OBJ.Statistics.Stat;
 
 import java.net.Socket;
-import java.util.Hashtable;
 import java.util.Queue;
+import java.util.Vector;
 import java.util.concurrent.ConcurrentLinkedDeque;
 
 public class Poketmon implements Game{
 
-    Hashtable<String, Player> players;// 플레이어
-    Queue<Character> sequence = new ConcurrentLinkedDeque<>(); // 캐릭터 행동 순서
+    Vector<Player> players;// 플레이어
+    Queue<Player> sequence = new ConcurrentLinkedDeque<>(); // 캐릭터 행동 순서
     EnemyFactory enemyFactory = new EnemyFactory();
 
     Enemy enemy = enemyFactory.Devil();
@@ -25,12 +24,12 @@ public class Poketmon implements Game{
     }
 
     @Override
-    public void enterRoom(String name, Socket socket) {
+    public void enterRoom(Socket socket) {
         // 게임 방문자
 
         // player 데이터 입력 (수정 필요)
         Player player = new Player(new Stat(), socket);
-        players.put(name, player);
+        players.add(player);
         sequence.add(player);
     }
 
@@ -52,12 +51,27 @@ public class Poketmon implements Game{
     public void start() {
 
         // 게임 시작
-        while(true) {
-            // player1, player2, enemy 순서대로 치기
+        while(!sequence.isEmpty()) {
+            // player1 -> enemy -> player2 -> enemy 순서대로 반복
 
-            Character character = sequence.poll();
-            character.activate(4);
-            enemy.activate(4);
+            Player player = sequence.poll();
+            if(!player.isDead()) {
+                sequence.add(player);
+            }
+
+            player.activate(enemy, players);
+
+            if(enemy.isDead()) {
+                System.out.println("you win");
+                return;
+            }
+
+            enemy.activate(enemy, players);
+
+
         }
+
+        System.out.println("loser");
+        return;
     }
 }
