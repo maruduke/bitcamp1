@@ -5,12 +5,14 @@ import OBJ.EnemyCharacter.EnemyFactory;
 import OBJ.Player;
 import OBJ.PlayerCharacter.Warrior;
 import OBJ.Statistics.Stat;
+import Server.SendAndReceive;
 
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Queue;
 import java.util.Vector;
@@ -18,7 +20,7 @@ import java.util.concurrent.ConcurrentLinkedDeque;
 
 public class Poketmon implements Game{
 
-    Vector<Player> players = new Vector<Player>();// 플레이어
+    List<Player> players = new ArrayList<Player>();// 플레이어
     Queue<Player> sequence = new ConcurrentLinkedDeque<>(); // 캐릭터 행동 순서
     EnemyFactory enemyFactory = new EnemyFactory();
 
@@ -43,6 +45,7 @@ public class Poketmon implements Game{
             sequence.add(player);
         }
 
+
     }
 
 
@@ -59,45 +62,28 @@ public class Poketmon implements Game{
 
             player.activate("1", enemy, sequence.stream().toList());
 
+            try{
+                Thread.sleep(1000);
+            }catch(Exception e) {
+
+            }
             if(enemy.isDead()) {
-                SendAndReceive.broadcast("Players Win");
+                sendAndReceive.broadcast("Players Win");
                 return;
             }
 
              gameLog = enemy.activate("1", enemy, players);
-
-            SendAndReceive.broadcast(gameLog);
+            System.out.println(gameLog);
+            sendAndReceive.broadcast(gameLog);
 
             if(!player.isDead()) {
                 sequence.add(player);
             }
         }
 
-        SendAndReceive.broadcast("Players defeat");
+        sendAndReceive.broadcast("Players defeat");
 
     }
 }
 
 
-class SendAndReceive {
-    static Vector<Player> players;
-    static String ThreadName = Thread.currentThread().getName();
-
-    SendAndReceive(Vector<Player> players) {
-        this.players = players;
-    }
-
-    public static void broadcast(String GameLog) throws IOException {
-        for (Player p : players) {
-            Socket s = p.getSocket();
-
-            OutputStream out = s.getOutputStream();
-            PrintWriter pw = new PrintWriter(new OutputStreamWriter(out) );
-            System.out.println(ThreadName + ": " + GameLog);
-            pw.println(GameLog);
-            pw.flush();
-        }
-    }
-
-
-}

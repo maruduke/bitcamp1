@@ -17,6 +17,8 @@ public abstract class Enemy extends Character{
     public String activate(String commnad, Enemy enemy, List<Player> players) {
         String comment = null;
 
+        System.out.println("enemy turn");
+
         if(commnad.equals("1"))
             comment = tech1(enemy, players);
         else if(commnad.equals("2") )

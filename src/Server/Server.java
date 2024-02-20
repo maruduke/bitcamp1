@@ -29,7 +29,7 @@ public class Server {
                 sockets.add(socket);
 
                 if(sockets.size() == 2) {
-                    GameStart poketmon = new GameStart(sockets);
+                    Thread poketmon = new Thread(new GameStart(new ArrayList<>(sockets), new Poketmon()));
                     poketmon.start();
                     sockets.clear();
                 }
@@ -43,16 +43,18 @@ public class Server {
 
 }
 
-class GameStart extends Thread {
+class GameStart implements Runnable {
+    List<Socket> sockets;
     Game poketmon;
-    public GameStart(List<Socket> sockets) {
-        this.poketmon = new Poketmon();
-        poketmon.enterRoom(sockets);
+    public GameStart(List<Socket> sockets, Poketmon poketmon) {
+        this.sockets = sockets;
+        this.poketmon = poketmon;
     }
 
     @Override
     public void run() {
         try {
+            poketmon.enterRoom(sockets);
             System.out.println("---------------- game starting ----------------");
             poketmon.start();
         } catch (IOException e) {
