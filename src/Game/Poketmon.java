@@ -3,6 +3,7 @@ package Game;
 import OBJ.Enemy;
 import OBJ.EnemyCharacter.EnemyFactory;
 import OBJ.Player;
+import OBJ.PlayerCharacter.Warrior;
 import OBJ.Statistics.Stat;
 
 import java.io.IOException;
@@ -10,6 +11,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.List;
 import java.util.Queue;
 import java.util.Vector;
 import java.util.concurrent.ConcurrentLinkedDeque;
@@ -31,13 +33,15 @@ public class Poketmon implements Game{
     }
 
     @Override
-    public void enterRoom(Socket socket) {
+    public void enterRoom(List<Socket> sockets) {
         // 게임 방문자
 
         // player 데이터 입력 (수정 필요)
-        Player player = new Player(new Stat(), socket);
-        players.add(player);
-        sequence.add(player);
+        for(Socket socket : sockets) {
+            Player player = new Warrior(new Stat("name", 10, 10, 15, 15), socket, "", "", "");
+            players.add(player);
+            sequence.add(player);
+        }
 
     }
 
