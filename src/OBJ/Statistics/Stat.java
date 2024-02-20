@@ -66,7 +66,13 @@ public class Stat {
         return heal;
     }
 
+    public int strength(int up) {
+        this.attackPoint += up;
+        return up;
+    }
     public boolean isDead() {
         return this.hp <= 0 ? true : false;
     }
+
+
 }

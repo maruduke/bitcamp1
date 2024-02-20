@@ -24,25 +24,26 @@ public abstract class Character {
         return this.stat.heal(heal);
     }
 
+    public int strength(int up) {
+        return this.stat.strength(up);
+    }
+
     public boolean isDead() {
         return stat.getHp() <= 0 ? true : false;
     }
 
-    String tech1(Enemy enemy, List<Player> characters) {
-
-        // 평타
-        return "평타";
-    };
-
+    public abstract String tech1(Enemy enemy, List<Player> characters);
     public abstract String tech2(Enemy enemy, List<Player> characters);
     public abstract String tech3(Enemy enemy, List<Player> characters);
     public abstract String tech4(Enemy enemy, List<Player> characters);
 
 
 
-    public abstract void activate(Enemy enemy, List<Player> players);
+    public abstract String activate(String command, Enemy enemy, List<Player> players);
 
     public Stat getStat() {
         return this.stat;
     }
+
+
 }

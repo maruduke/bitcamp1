@@ -21,6 +21,10 @@ public abstract class Player extends Character {
         this.Pw = Pw;
     }
 
+    public Socket getSocket() {
+        return socket;
+    }
+
 
 
 

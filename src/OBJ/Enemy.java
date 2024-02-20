@@ -14,13 +14,19 @@ public abstract class Enemy extends Character{
     }
 
     @Override
-    public void activate(Enemy enemy, List<Player> players) {
-        int i = 4;
+    public String activate(String commnad, Enemy enemy, List<Player> players) {
+        String comment = null;
 
-        if(i == 1)
-            tech1(enemy, players);
-        else if(i == 2)
-            tech2(enemy, players);
+        if(commnad.equals("1"))
+            comment = tech1(enemy, players);
+        else if(commnad.equals("2") )
+            comment = tech2(enemy, players);
+        else if(commnad.equals("3"))
+            comment = tech3(enemy, players);
+        else if(commnad.equals("4"))
+            comment = tech4(enemy,players);
+
+        return comment;
     }
 
 

@@ -5,6 +5,10 @@ import OBJ.EnemyCharacter.EnemyFactory;
 import OBJ.Player;
 import OBJ.Statistics.Stat;
 
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Queue;
 import java.util.Vector;
@@ -12,7 +16,7 @@ import java.util.concurrent.ConcurrentLinkedDeque;
 
 public class Poketmon implements Game{
 
-    Vector<Player> players;// 플레이어
+    Vector<Player> players = new Vector<Player>();// 플레이어
     Queue<Player> sequence = new ConcurrentLinkedDeque<>(); // 캐릭터 행동 순서
     EnemyFactory enemyFactory = new EnemyFactory();
 
@@ -20,6 +24,10 @@ public class Poketmon implements Game{
 
     public Poketmon() {
 
+    }
+
+    public boolean state() {
+        return players.size() == 2 ? true : false;
     }
 
     @Override
@@ -31,37 +39,61 @@ public class Poketmon implements Game{
         players.add(player);
         sequence.add(player);
 
-        if(players.size() == 2) {
-            start();
-        }
     }
 
 
     @Override
-    public void start() {
+    public void start() throws IOException {
+        SendAndReceive sendAndReceive = new SendAndReceive(players);
+        String gameLog = null;
 
         // 게임 시작
         while(!sequence.isEmpty()) {
             // player1 -> enemy -> player2 -> enemy 순서대로 반복
 
             Player player = sequence.poll();
-            if(!player.isDead()) {
-                sequence.add(player);
-            }
 
-            player.activate(enemy, players.stream().toList());
+            player.activate("1", enemy, sequence.stream().toList());
 
             if(enemy.isDead()) {
-                System.out.println("you win");
+                SendAndReceive.broadcast("Players Win");
                 return;
             }
 
-            enemy.activate(enemy, players);
+             gameLog = enemy.activate("1", enemy, players);
 
+            SendAndReceive.broadcast(gameLog);
 
+            if(!player.isDead()) {
+                sequence.add(player);
+            }
         }
 
-        System.out.println("loser");
+        SendAndReceive.broadcast("Players defeat");
 
     }
+}
+
+
+class SendAndReceive {
+    static Vector<Player> players;
+    static String ThreadName = Thread.currentThread().getName();
+
+    SendAndReceive(Vector<Player> players) {
+        this.players = players;
+    }
+
+    public static void broadcast(String GameLog) throws IOException {
+        for (Player p : players) {
+            Socket s = p.getSocket();
+
+            OutputStream out = s.getOutputStream();
+            PrintWriter pw = new PrintWriter(new OutputStreamWriter(out) );
+            System.out.println(ThreadName + ": " + GameLog);
+            pw.println(GameLog);
+            pw.flush();
+        }
+    }
+
+
 }
