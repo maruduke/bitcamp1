@@ -3,7 +3,6 @@ package Server;
 import Game.Game;
 import Game.Poketmon;
 
-import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -52,10 +51,6 @@ class GameStart extends Thread {
 
     @Override
     public void run() {
-        try {
-            poketmon.start();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        poketmon.start();
     }
 }
