@@ -56,7 +56,7 @@ public class Stat {
     }
 
     public int hit(int damage) {
-        int RealDamage = damage - this.defencePoint < 0 ? damage - this.defencePoint: 1;
+        int RealDamage = (damage - this.defencePoint) < 0 ? 1: damage - this.defencePoint;
         this.hp -= RealDamage;
         return RealDamage;
     }
@@ -74,5 +74,8 @@ public class Stat {
         return this.hp <= 0 ? true : false;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
 
 }

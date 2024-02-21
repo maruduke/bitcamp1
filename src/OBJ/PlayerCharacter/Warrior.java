@@ -8,8 +8,8 @@ import java.net.Socket;
 import java.util.List;
 
 public class Warrior extends Player {
-    public Warrior(Stat stat, Socket socket, String image, String Id, String Pw) {
-        super(stat, socket, image, Id, Pw);
+    public Warrior(Stat stat, Socket socket, String image) {
+        super(stat, socket, image);
     }
 
     @Override
@@ -29,7 +29,7 @@ public class Warrior extends Player {
 
     @Override
     public String tech3(Enemy enemy, List<Player> characters) {
-        enemy.strength(10);
+        this.strength(10);
         return this.getStat().getName() + "의 공격력이 상승하였습니다.";
     }
 

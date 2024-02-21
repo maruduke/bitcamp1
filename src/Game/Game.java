@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface Game {
 
-    public void enterRoom(List<Socket> socket);
+    public void enterRoom(List<Socket> socket) throws IOException;
     public void start() throws IOException;
 
     boolean state();

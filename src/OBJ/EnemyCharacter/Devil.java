@@ -17,7 +17,7 @@ public class Devil extends Enemy {
     public String tech1(Enemy enemy, List<Player> characters) {
         int random = ((int) Math.random()*10) % characters.size();
         int damage = characters.get(random).hit(this.stat.getAttackPoint());
-        String log = characters.get(random).getStat().getName() + "을 공격하였습니다. 데미지: " + damage;
+        String log = "Devil이 "+ characters.get(random).getStat().getName() + "을 공격하였습니다. 데미지: " + damage;
         return log;
     }
 
@@ -25,7 +25,7 @@ public class Devil extends Enemy {
     public String tech2(Enemy enemy, List<Player> characters) {
         int random = ((int) Math.random()*10) % characters.size();
         int damage = characters.get(random).hit(this.stat.getAttackPoint() + 10);
-        String log = characters.get(random).getStat().getName() + "에게 강타를 사용하였습니다. 데미지: " + damage;
+        String log = "Devil이" + characters.get(random).getStat().getName() + "에게 강타를 사용하였습니다. 데미지: " + damage;
         return log;
     }
 

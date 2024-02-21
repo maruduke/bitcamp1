@@ -4,6 +4,9 @@ import Game.Game;
 import Game.Poketmon;
 
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -27,6 +30,13 @@ public class Server {
                 System.out.println("socket connect successful");
 
                 sockets.add(socket);
+
+                // 클라이언트에게 기다리라는 데이터 전송
+                OutputStream out = socket.getOutputStream();
+                PrintWriter pw = new PrintWriter(new OutputStreamWriter(out) );
+                pw.println("참가자를 기다리고 있습니다.");
+                pw.flush();
+
 
                 if(sockets.size() == 2) {
                     Thread poketmon = new Thread(new GameStart(new ArrayList<>(sockets), new Poketmon()));
