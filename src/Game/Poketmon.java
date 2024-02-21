@@ -26,7 +26,7 @@ public class Poketmon implements Game{
 
 
     Enemy enemy = enemyFactory.Devil();
-
+    String state = null;
     public Poketmon() {
 
     }
@@ -75,7 +75,7 @@ public class Poketmon implements Game{
                 sendAndReceive.broadcast( player.getStat().getName() + "님이 사망하셨습니다.");
                 continue;
             }
-            // player에게 입력 받기
+
 
             String command = sendAndReceive.turn(player.getSocket());
             // command 입력
@@ -85,6 +85,13 @@ public class Poketmon implements Game{
             sequence.add(player);
             System.out.println(gameLog);
             sendAndReceive.broadcast(gameLog);
+            state = "boss HP: " + enemy.getStat().getHp();
+            for(Player p : players) {
+                state += " " + p.getStat().getName() +" HP: " + p.getStat().getHp() ;
+            }
+
+
+
             try{
                 Thread.sleep(1000);
             }catch(Exception e) {
@@ -99,10 +106,19 @@ public class Poketmon implements Game{
             System.out.println(gameLog);
             sendAndReceive.broadcast(gameLog);
 
+            state = "boss HP: " + enemy.getStat().getHp();
+            for(Player p : players) {
+                state += " " + p.getStat().getName() +" HP: " + p.getStat().getHp() ;
+            }
+
+            sendAndReceive.broadcast(state);
+
 
         }
 
         sendAndReceive.broadcast("Players defeat");
+
+
         return;
 
     }

@@ -6,16 +6,22 @@ import OBJ.Player;
 import OBJ.Statistics.Stat;
 
 import java.util.List;
+import java.util.Random;
 
 public class Devil extends Enemy {
 
+    Random random= new Random();
     public Devil(Stat stat, String image) {
         super(stat, image);
     }
 
     @Override
     public String tech1(Enemy enemy, List<Player> characters) {
-        int random = ((int) Math.random()*10) % characters.size();
+
+        int randomVal = random.nextInt(10); // 0 이상 10 미만의 랜덤 정수
+
+        int random = (randomVal) % characters.size();
+        System.out.println("random code:" + random);
         int damage = characters.get(random).hit(this.stat.getAttackPoint());
         String log = "Devil이 "+ characters.get(random).getStat().getName() + "을 공격하였습니다. 데미지: " + damage;
         return log;

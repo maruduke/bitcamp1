@@ -12,7 +12,7 @@ public class EnemyFactory {
 
     public Enemy Devil() {
         
-        return new Devil(new Stat("Devil", 10, 10, 15, 10), "");
+        return new Devil(new Stat("Devil", 10, 10, 1, 10), "");
 //          return enemyRepository.createEnemy("Devil"); // DB 연결용
     }
 }
