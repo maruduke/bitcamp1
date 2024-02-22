@@ -7,20 +7,20 @@ import java.net.Socket;
 import java.util.List;
 
 public class SendAndReceive {
-    List<Player> players;
-    String ThreadName = Thread.currentThread().getName();
+    List<Player> players; // 플레이어를 저장할 List<Player>
+    String ThreadName = Thread.currentThread().getName(); // 실행중인 스레드의 이름을 저장
 
     public SendAndReceive(List<Player> players) {
         this.players = players;
-    }
+    } // 플레이어 생성
 
-    public void broadcast(String GameLog) throws IOException {
+    public void broadcast(String GameLog) throws IOException { // 플레이어의 게임 진행 로그 출력
         for (Player p : players) {
             Socket s = p.getSocket();
 
             OutputStream out = s.getOutputStream();
             PrintWriter pw = new PrintWriter(new OutputStreamWriter(out) );
-            System.out.println(ThreadName + ": " + GameLog);
+            System.out.println(ThreadName + ": \n" + GameLog);
             pw.println(GameLog);
             pw.flush();
         }

@@ -31,6 +31,9 @@ public abstract class Enemy extends Character{
         return comment;
     }
 
+    public String getImage() {
+        return image;
+    }
 
 }
 

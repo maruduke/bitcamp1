@@ -7,10 +7,11 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLOutput;
 import java.sql.Statement;
 
 public class EnemyRepository {
-    ResultSet enemyDB = null;
+
     public Connection getDBConnection() {
         Connection conn = null;
         try {
@@ -21,50 +22,45 @@ public class EnemyRepository {
         } catch(Exception e) {e.printStackTrace();}
         return conn;
     }
-    public void saveEnemyDB(Connection conn,String name) { // sql DB의 enemy 데이터를 enemyDB에 저장
+    public ResultSet getEnemyResult(Connection conn,int id) { // sql DB의 enemy 데이터를 enemyDB에 저장
         try {
-            String sql = ("SELECT * from enemy WHERE name = name");
+            String sql = String.format("SELECT * from enemy WHERE id = %s", id);
             PreparedStatement pstmt = conn.prepareStatement(sql); //조회
-            enemyDB = pstmt.executeQuery(); // 저장
+            ResultSet enemyDB = pstmt.executeQuery(); // 저장
+            return enemyDB;
+
         } catch(Exception e) {
             e.printStackTrace();
         }
+        return null;
+
     }
-    public ResultSet getEnemyDB() { // 저장된 enemyDB를 반환
-        return enemyDB;
-    }
-    public Enemy setEnemyDB() { // enmeyDB에 db
+
+    public Enemy setEnemyDB(ResultSet enemyDB) { // enmeyDB에 db
         Enemy enemy = null;
         try{
             while(enemyDB.next()) {
-                String id = enemyDB.getString("id");
+                int id = enemyDB.getInt("id");
                 String image = enemyDB.getString("image");
                 String name = enemyDB.getString("name");
                 int max_hp = enemyDB.getInt("max_hp");
                 int max_pp = enemyDB.getInt("max_pp");
                 int basic_attack_point = enemyDB.getInt("basic_attack_point");
                 int basic_defence_point = enemyDB.getInt("basic_defence_point");
-                enemy = new Devil(creatStat(enemyDB), image);
+                enemy = new Devil(new Stat(name, max_hp, max_pp, basic_attack_point, basic_defence_point)
+                    , image);
             }
         } catch(Exception e) {e.printStackTrace();}
+
+        if(enemy == null)
+            System.out.println("enemy is null");
+
         return enemy;
     }
-    public static Stat creatStat(ResultSet enemyDB) throws Exception {
-        Stat stat = null;
-        while (enemyDB.next()) {
-            String name = enemyDB.getString("name");
-            int max_hp = enemyDB.getInt("max_hp");
-            int max_pp = enemyDB.getInt("max_pp");
-            int basic_attack_point = enemyDB.getInt("basic_attack_point");
-            int basic_defence_point = enemyDB.getInt("basic_defence_point");
-            stat = new Stat(name, max_hp, max_pp, basic_attack_point, basic_defence_point);
-        }
-        return stat;
-    }
 
-    public Enemy createEnemy(String enemyName) {
+    public Enemy createEnemy(int id) {
         // 원하는 Enemy 생성
-        saveEnemyDB(getDBConnection(), enemyName);
-        return setEnemyDB();
+        ResultSet rs = getEnemyResult(getDBConnection(), id);
+        return setEnemyDB(rs);
     }
 }

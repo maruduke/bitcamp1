@@ -5,14 +5,20 @@ import OBJ.Player;
 import OBJ.PlayerCharacter.Warrior;
 import OBJ.Statistics.Stat;
 import Repository.EnemyRepository;
+import java.util.Random;
 
 public class EnemyFactory {
 
-    EnemyRepository enemyRepository;
+    EnemyRepository enemyRepository = new EnemyRepository();
 
-    public Enemy Devil() {
-        
-        return new Devil(new Stat("Devil", 10, 10, 1, 10), "");
-//          return enemyRepository.createEnemy("Devil"); // DB 연결용
+
+    public Enemy createEnemy() {
+        Random random = new Random();
+
+        int randomVal = random.nextInt(3) + 1;
+
+        Enemy enemy = enemyRepository.createEnemy( randomVal );
+        return enemy;
     }
+
 }

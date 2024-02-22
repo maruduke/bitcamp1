@@ -25,14 +25,10 @@ public class Poketmon implements Game{
     EnemyFactory enemyFactory = new EnemyFactory();
 
 
-    Enemy enemy = enemyFactory.Devil();
+    Enemy enemy = null;
     String state = null;
-    public Poketmon() {
-
-    }
-
-    public boolean state() {
-        return players.size() == 2 ? true : false;
+    public Poketmon(Enemy enemy) {
+        this.enemy = enemy;
     }
 
     @Override
@@ -66,6 +62,8 @@ public class Poketmon implements Game{
 
         sendAndReceive.broadcast("게임이 시작되었습니다.");
         // 게임 시작
+        sendAndReceive.broadcast(enemy.getImage());
+
         while(!sequence.isEmpty()) {
             // player1 -> enemy -> player2 -> enemy 순서대로 반복
 

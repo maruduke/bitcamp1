@@ -15,8 +15,9 @@ import java.sql.ResultSet;
 
 public class PlayerRepository {
     ResultSet playerDB = null;
-    Connection conn = null;
+
     public Connection getDBConnection() {
+        Connection conn = null;
         try {
             String DB_USER = "bitcamp01";
             String DB_PASSWORD = "qwer1234";
@@ -25,9 +26,9 @@ public class PlayerRepository {
         } catch(Exception e) {e.printStackTrace();}
         return conn;
     }
-    public void savePlayerDB(Connection conn, String name) {
+    public void savePlayerDB(Connection conn, int id) {
         try {
-            String sql = ("SELECT * from player WHERE name = name"); // player 테이블의 id와 일치하는 행의 데이터 조회 쿼리
+            String sql = String.format("SELECT * from player WHERE id = %s", id); // player 테이블의 id와 일치하는 행의 데이터 조회 쿼리
             PreparedStatement pstmt = conn.prepareStatement(sql); // 쿼리 실행
             playerDB = pstmt.executeQuery(); // playerDB에 데이터 저장
         } catch(Exception e) {
@@ -40,10 +41,8 @@ public class PlayerRepository {
     public void setPlayerDB() {
         try{
             while(playerDB.next()) {
-                String id = playerDB.getString("id");
-                String pw = playerDB.getString("pw");
-                String image = playerDB.getString("image");
-                String name = playerDB.getString("name");
+                int id = playerDB.getInt("id");
+                String position = playerDB.getString("position");
                 int max_hp = playerDB.getInt("max_hp");
                 int max_pp = playerDB.getInt("max_pp");
                 int basic_attack_point = playerDB.getInt("basic_attack_point");
@@ -64,19 +63,5 @@ public class PlayerRepository {
         }
         return stat;
     }
-
-    public Player createPlayer(Socket socket, String name, String playerName) throws Exception {
-        savePlayerDB(getDBConnection(), name);
-        Stat stat = creatStat(getPlayerDB());
-        stat.setName(playerName);
-        if(name == "Warrior") {
-            return new Warrior(stat, socket, "");
-        }
-        else if(name == "Healer") {
-            return new Healer(stat, socket, "");
-        }
-        return new Warrior(stat, socket, "");
-    }
-
 
 }
