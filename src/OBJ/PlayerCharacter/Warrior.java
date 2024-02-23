@@ -8,8 +8,8 @@ import java.net.Socket;
 import java.util.List;
 
 public class Warrior extends Player {
-    public Warrior(Stat stat, Socket socket, String image) {
-        super(stat, socket, image);
+    public Warrior(Stat stat, Socket socket, String position) {
+        super(stat, socket, position);
     }
 
     @Override

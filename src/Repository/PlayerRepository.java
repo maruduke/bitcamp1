@@ -35,7 +35,7 @@ public class PlayerRepository {
     }
 
 
-    public Stat createPlayerStat(ResultSet playerDB, String name, Socket socket) {
+    public Stat getPlayerStat(ResultSet playerDB, String name) {
         try{
             while(playerDB.next()) {
                 int id = playerDB.getInt("id");
@@ -51,6 +51,13 @@ public class PlayerRepository {
         } catch(Exception e) {e.printStackTrace();}
 
         return null;
+    }
+
+    public Stat createPlayerStat(String name, String position) {
+        Connection conn = getDBConnection();
+        ResultSet resultSet = getPlayer(conn, position);
+        Stat stat = getPlayerStat(resultSet, name);
+        return stat;
     }
 
 

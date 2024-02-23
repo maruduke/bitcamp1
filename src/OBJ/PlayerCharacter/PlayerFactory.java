@@ -1,5 +1,26 @@
 package OBJ.PlayerCharacter;
 
+import OBJ.Player;
+import OBJ.Statistics.Stat;
+import Repository.PlayerRepository;
+
+import java.net.Socket;
+
 public class PlayerFactory {
     // player status(DB 값), socket(socket 연결) 을 사용하여 PlayerData 생성 및 반환
+
+    PlayerRepository repository = new PlayerRepository();
+
+    public Player createPlayer(String name, String position, Socket socket) {
+        Stat stat = repository.createPlayerStat(name, position);
+
+        Player player = null;
+        if(position.equals("Warrior")) {
+            player = new Warrior(stat,socket,position);
+        } else {
+            player = new Warrior(stat, socket, "Novis");
+        }
+
+        return player;
+    }
 }

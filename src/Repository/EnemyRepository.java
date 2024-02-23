@@ -36,8 +36,7 @@ public class EnemyRepository {
 
     }
 
-    public Enemy setEnemyDB(ResultSet enemyDB) { // enmeyDB에 db
-        Enemy enemy = null;
+    public Stat setEnemyDB(ResultSet enemyDB) { // enmeyDB에 db
         try{
             while(enemyDB.next()) {
                 int id = enemyDB.getInt("id");
@@ -47,17 +46,15 @@ public class EnemyRepository {
                 int max_pp = enemyDB.getInt("max_pp");
                 int basic_attack_point = enemyDB.getInt("basic_attack_point");
                 int basic_defence_point = enemyDB.getInt("basic_defence_point");
-                enemy = new Devil(new Stat(name, max_hp, max_pp, basic_attack_point, basic_defence_point, image));
+                 return new Stat(name, max_hp, max_pp, basic_attack_point, basic_defence_point, image);
             }
         } catch(Exception e) {e.printStackTrace();}
 
-        if(enemy == null)
-            System.out.println("enemy is null");
 
-        return enemy;
+        return null;
     }
 
-    public Enemy createEnemy(int id) {
+    public Stat createEnemyStat(int id) {
         // 원하는 Enemy 생성
         ResultSet rs = getEnemyResult(getDBConnection(), id);
         return setEnemyDB(rs);

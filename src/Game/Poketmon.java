@@ -3,6 +3,7 @@ package Game;
 import OBJ.Enemy;
 import OBJ.EnemyCharacter.EnemyFactory;
 import OBJ.Player;
+import OBJ.PlayerCharacter.PlayerFactory;
 import OBJ.PlayerCharacter.Warrior;
 import OBJ.Statistics.Stat;
 import Server.SendAndReceive;
@@ -23,6 +24,7 @@ public class Poketmon implements Game{
     List<Player> players = new ArrayList<Player>();// 플레이어
     Queue<Player> sequence = new ConcurrentLinkedDeque<>(); // 캐릭터 행동 순서
     EnemyFactory enemyFactory = new EnemyFactory();
+    PlayerFactory playerFactory = new PlayerFactory();
 
 
     Enemy enemy = null;
@@ -46,7 +48,7 @@ public class Poketmon implements Game{
 
 
             System.out.println(obj.getString("name"));
-            Player player = new Warrior(new Stat(obj.getString("name"), 10, 10, 15, 5), socket, "");
+            Player player = playerFactory.createPlayer(obj.getString("name"), obj.getString("position"), socket);
             players.add(player);
             sequence.add(player);
         }

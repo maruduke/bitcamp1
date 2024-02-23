@@ -15,9 +15,18 @@ public class EnemyFactory {
     public Enemy createEnemy() {
         Random random = new Random();
 
+        Enemy enemy = null;
         int randomVal = random.nextInt(3) + 1;
 
-        Enemy enemy = enemyRepository.createEnemy( randomVal );
+        Stat stat = enemyRepository.createEnemyStat( randomVal );
+
+        if(stat.getName().equals("Devil")) {
+            enemy = new Devil(stat);
+        }
+        else {
+            enemy = new Devil(stat);
+        }
+
         return enemy;
     }
 
