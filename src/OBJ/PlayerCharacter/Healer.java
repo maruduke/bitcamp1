@@ -8,8 +8,8 @@ import java.net.Socket;
 import java.util.List;
 
 public class Healer extends Player {
-    public Healer(Stat stat, Socket socket, String image) {
-        super(stat, socket, image);
+    public Healer(Stat stat, Socket socket, String position) {
+        super(stat, socket, position);
     }
 
     @Override
