@@ -10,13 +10,13 @@ public abstract class Player extends Character {
 
     String Id;
     String Pw;
-    String image;
+    String position;
     Socket socket;
 
-    protected Player(Stat stat, Socket socket, String image) {
+    protected Player(Stat stat, Socket socket, String position) {
         super(stat);
         this.socket = socket;
-        this.image = image;
+        this.position = position;
     }
 
     public Socket getSocket() {

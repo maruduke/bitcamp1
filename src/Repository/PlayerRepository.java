@@ -7,14 +7,10 @@ import OBJ.PlayerCharacter.Warrior;
 import OBJ.Statistics.Stat;
 
 import java.net.Socket;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
 
 
 public class PlayerRepository {
-    ResultSet playerDB = null;
 
     public Connection getDBConnection() {
         Connection conn = null;
@@ -26,19 +22,20 @@ public class PlayerRepository {
         } catch(Exception e) {e.printStackTrace();}
         return conn;
     }
-    public void savePlayerDB(Connection conn, int id) {
+    public ResultSet getPlayer(Connection conn, String position) {
         try {
-            String sql = String.format("SELECT * from player WHERE id = %s", id); // player 테이블의 id와 일치하는 행의 데이터 조회 쿼리
+            String sql = String.format("SELECT * from player WHERE position = %s", position); // player 테이블의 id와 일치하는 행의 데이터 조회 쿼리
             PreparedStatement pstmt = conn.prepareStatement(sql); // 쿼리 실행
-            playerDB = pstmt.executeQuery(); // playerDB에 데이터 저장
+            ResultSet playerDB = pstmt.executeQuery(); // playerDB에 데이터 저장
+            return playerDB;
         } catch(Exception e) {
             e.printStackTrace();
         }
+        return null;
     }
-    public ResultSet getPlayerDB() {
-        return playerDB;
-    }
-    public void setPlayerDB() {
+
+
+    public Stat createPlayer(ResultSet playerDB) {
         try{
             while(playerDB.next()) {
                 int id = playerDB.getInt("id");
@@ -48,20 +45,21 @@ public class PlayerRepository {
                 int basic_attack_point = playerDB.getInt("basic_attack_point");
                 int basic_defence_point = playerDB.getInt("basic_defence_point");
 
+                return new Stat("player",max_hp,max_pp,basic_attack_point,basic_defence_point);
             }
         } catch(Exception e) {e.printStackTrace();}
+
+        return null;
     }
-    public Stat creatStat(ResultSet playerDB) throws Exception {
-        Stat stat = null;
-        while (playerDB.next()) {
-            String name = playerDB.getString("name");
-            int max_hp = playerDB.getInt("max_hp");
-            int max_pp = playerDB.getInt("max_pp");
-            int basic_attack_point = playerDB.getInt("basic_attack_point");
-            int basic_defence_point = playerDB.getInt("basic_defence_point");
-            stat = new Stat(name, max_hp, max_pp, basic_attack_point, basic_defence_point);
-        }
-        return stat;
+
+    public Stat createPlayerStat(String position) throws SQLException {
+        Connection conn = getDBConnection();
+        ResultSet resultSet = getPlayer(conn, position);
+        conn.close();
+
+        return createPlayer(resultSet);
+
     }
+
 
 }
