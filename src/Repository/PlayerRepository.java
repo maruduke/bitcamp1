@@ -24,8 +24,9 @@ public class PlayerRepository {
     }
     public ResultSet getPlayer(Connection conn, String position) {
         try {
-            String sql = String.format("SELECT * from player WHERE position = %s", position); // player 테이블의 id와 일치하는 행의 데이터 조회 쿼리
+            String sql = "SELECT * from player WHERE position = ?"; // player 테이블의 id와 일치하는 행의 데이터 조회 쿼리
             PreparedStatement pstmt = conn.prepareStatement(sql); // 쿼리 실행
+            pstmt.setString(1,position);
             ResultSet playerDB = pstmt.executeQuery(); // playerDB에 데이터 저장
             return playerDB;
         } catch(Exception e) {
