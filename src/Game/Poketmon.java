@@ -7,6 +7,7 @@ import OBJ.PlayerCharacter.PlayerFactory;
 import OBJ.PlayerCharacter.Warrior;
 import OBJ.Statistics.Stat;
 import Server.SendAndReceive;
+import javax.xml.transform.SourceLocator;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -83,6 +84,7 @@ public class Poketmon implements Game{
             gameLog = player.activate(command, enemy, sequence.stream().toList());
 
             sequence.add(player);
+            menu(players, player, enemy);
             System.out.println(gameLog);
             sendAndReceive.broadcast(gameLog);
             state = "boss HP: " + enemy.getStat().getHp();
@@ -120,6 +122,26 @@ public class Poketmon implements Game{
 
 
         return;
+
+    }
+    public void menu(List<Player> players, Player turn,Enemy enemy) throws IOException {
+        String str = (players.get(0).getStat().getName())+"("+ players.get(0).getPosition()+ ")";
+        System.out.println(enemy.getImage());
+        System.out.print("+------------------------------+------+--------------------------------+\n");
+        System.out.print("|    +--      HP "+enemy.getStat().getHp()+" / "+enemy.getStat().getMax_hp()+"        "+enemy.getStat().getName()+"         MP "+enemy.getStat().getPp()+" / "+enemy.getStat().getMax_pp()+"      --+      |\n");
+        System.out.print("+------------------------------+------+--------------------------------+\n");
+        System.out.print(">>  " + turn.getStat().getName() + "의 턴입니다.\n") ;
+        System.out.print("+----------------------------------------------------------------------+\n");
+//        System.out.print(String.format("|%-29s :      : [1] %-12s           |\n",str,players.get(0).getStat().getTech1()));
+        System.out.printf("|  %-29s", str);
+        System.out.printf(" :      : [1] ");
+        System.out.printf("%-23s\n", players.get(0).getStat().getTech1());
+
+        System.out.print("|  HP "+ players.get(0).getStat().getHp() + " / " + players.get(0).getStat().getMax_hp() +  "   MP " +players.get(0).getStat().getPp() + " / " +  players.get(0).getStat().getMax_pp() +"     :      : [2] "+ String.format("%-12s",(players.get(0).getStat().getTech2()))+"             |  \n");
+        System.out.print("|    "+String.format("%-26s",(players.get(1).getStat().getName())+"("+ players.get(1).getPosition()+ ")")+ ":      : [3] "+String.format("%-12s",(players.get(0).getStat().getTech3()))+"             |\n");
+        System.out.print("|  HP "+ players.get(1).getStat().getHp() + " / " + players.get(1).getStat().getMax_hp() +  "   MP " +players.get(1).getStat().getPp() + " / " +  players.get(1).getStat().getMax_pp() +"     :      : [4] "+ String.format("%-12s",(players.get(0).getStat().getTech4()))+"             |  \n");
+        System.out.print("+----------------------------------------------------------------------+\n");
+
 
     }
 }

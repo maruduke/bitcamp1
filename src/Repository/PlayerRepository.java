@@ -46,8 +46,12 @@ public class PlayerRepository {
                 int basic_attack_point = playerDB.getInt("basic_attack_point");
                 int basic_defence_point = playerDB.getInt("basic_defence_point");
                 String image = playerDB.getString("image");
+                String tech1 = playerDB.getString("tech1");
+                String tech2 = playerDB.getString("tech2");
+                String tech3 = playerDB.getString("tech3");
+                String tech4 = playerDB.getString("tech4");
 
-                return new Stat(name,max_hp,max_pp,basic_attack_point,basic_defence_point, image);
+                return new Stat(name,max_hp,max_pp,basic_attack_point,basic_defence_point, image, tech1, tech2, tech3, tech4);
             }
         } catch(Exception e) {e.printStackTrace();}
 
