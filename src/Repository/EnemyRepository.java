@@ -47,8 +47,7 @@ public class EnemyRepository {
                 int max_pp = enemyDB.getInt("max_pp");
                 int basic_attack_point = enemyDB.getInt("basic_attack_point");
                 int basic_defence_point = enemyDB.getInt("basic_defence_point");
-                enemy = new Devil(new Stat(name, max_hp, max_pp, basic_attack_point, basic_defence_point)
-                    , image);
+                enemy = new Devil(new Stat(name, max_hp, max_pp, basic_attack_point, basic_defence_point, image));
             }
         } catch(Exception e) {e.printStackTrace();}
 

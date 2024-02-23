@@ -8,9 +8,8 @@ import java.util.Vector;
 public abstract class Enemy extends Character{
     String image;
 
-    protected Enemy(Stat stat, String image) {
+    protected Enemy(Stat stat) {
         super(stat);
-        this.image = image;
     }
 
     @Override

@@ -8,8 +8,6 @@ import java.util.Vector;
 
 public abstract class Player extends Character {
 
-    String Id;
-    String Pw;
     String position;
     Socket socket;
 

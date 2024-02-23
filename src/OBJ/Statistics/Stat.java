@@ -6,8 +6,9 @@ public class Stat {
     int hp, pp;
     int basic_attack_point, basic_defence_point; // 기초 공격력, 기초 방어력
     int attackPoint, defencePoint; // 버프로 추가 될 수 있음
+    String image;
 
-    public Stat(String name, int max_hp, int max_pp, int basic_attack_point, int basic_defence_point) {
+    public Stat(String name, int max_hp, int max_pp, int basic_attack_point, int basic_defence_point, String image) {
         this.name = name;
         this.max_hp = max_hp;
         this.max_pp = max_pp;
@@ -17,6 +18,7 @@ public class Stat {
         this.basic_defence_point = basic_defence_point;
         this.attackPoint = basic_attack_point;
         this.defencePoint = basic_defence_point;
+        this.image = image;
     }
 
     public String getName() {

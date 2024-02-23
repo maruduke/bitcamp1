@@ -11,8 +11,8 @@ import java.util.Random;
 public class Devil extends Enemy {
 
     Random random= new Random();
-    public Devil(Stat stat, String image) {
-        super(stat, image);
+    public Devil(Stat stat) {
+        super(stat);
     }
 
     @Override

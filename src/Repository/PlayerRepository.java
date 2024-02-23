@@ -35,7 +35,7 @@ public class PlayerRepository {
     }
 
 
-    public Stat createPlayer(ResultSet playerDB) {
+    public Stat createPlayerStat(ResultSet playerDB, String name, Socket socket) {
         try{
             while(playerDB.next()) {
                 int id = playerDB.getInt("id");
@@ -44,22 +44,15 @@ public class PlayerRepository {
                 int max_pp = playerDB.getInt("max_pp");
                 int basic_attack_point = playerDB.getInt("basic_attack_point");
                 int basic_defence_point = playerDB.getInt("basic_defence_point");
+                String image = playerDB.getString("image");
 
-                return new Stat("player",max_hp,max_pp,basic_attack_point,basic_defence_point);
+                return new Stat(name,max_hp,max_pp,basic_attack_point,basic_defence_point, image);
             }
         } catch(Exception e) {e.printStackTrace();}
 
         return null;
     }
 
-    public Stat createPlayerStat(String position) throws SQLException {
-        Connection conn = getDBConnection();
-        ResultSet resultSet = getPlayer(conn, position);
-        conn.close();
-
-        return createPlayer(resultSet);
-
-    }
 
 
 }
