@@ -62,6 +62,7 @@ public class Stat {
         return defencePoint;
     }
 
+    public String getImage() {return image;}
     public int hit(int damage) {
         int RealDamage = (damage - this.defencePoint) < 0 ? 1: damage - this.defencePoint;
         this.hp -= RealDamage;

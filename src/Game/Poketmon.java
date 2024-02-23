@@ -65,7 +65,6 @@ public class Poketmon implements Game{
 
         sendAndReceive.broadcast("게임이 시작되었습니다.");
         // 게임 시작
-        sendAndReceive.broadcast(enemy.getImage());
 
         while(!sequence.isEmpty()) {
             // player1 -> enemy -> player2 -> enemy 순서대로 반복
@@ -77,6 +76,7 @@ public class Poketmon implements Game{
                 continue;
             }
 
+            sendAndReceive.broadcast(menu(players, player, enemy));
 
             String command = sendAndReceive.turn(player.getSocket());
             // command 입력
@@ -84,13 +84,9 @@ public class Poketmon implements Game{
             gameLog = player.activate(command, enemy, sequence.stream().toList());
 
             sequence.add(player);
-            sendAndReceive.broadcast(menu(players, player, enemy));
+
             System.out.println(gameLog);
             sendAndReceive.broadcast(gameLog);
-            state = "boss HP: " + enemy.getStat().getHp();
-            for(Player p : players) {
-                state += " " + p.getStat().getName() +" HP: " + p.getStat().getHp() ;
-            }
 
 
 
@@ -108,12 +104,6 @@ public class Poketmon implements Game{
             System.out.println(gameLog);
             sendAndReceive.broadcast(gameLog);
 
-            state = "boss HP: " + enemy.getStat().getHp();
-            for(Player p : players) {
-                state += " " + p.getStat().getName() +" HP: " + p.getStat().getHp() ;
-            }
-
-            sendAndReceive.broadcast(state);
 
 
         }
@@ -139,7 +129,8 @@ public class Poketmon implements Game{
 //        System.out.println("[4] 스킬3");
 //        System.out.println("+----------------------------------------------------------------------+");
 //        System.out.printf(">>  %s의 턴입니다. >>\n", turn.getStat().getName());
-        return "+------------------------------+------+--------------------------------+\n"
+        return enemy.getStat().getImage()
+            + "\n+------------------------------+------+--------------------------------+\n"
             + String.format("     +--      HP %-2d / %-2d", enemy.getStat().getHp(), enemy.getStat().getMax_hp())
             + String.format("        %-18s", enemy.getStat().getName())
             + String.format(" MP %-2d / %-2d      --+\n", enemy.getStat().getPp(), enemy.getStat().getMax_pp())

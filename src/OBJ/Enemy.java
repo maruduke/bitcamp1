@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Vector;
 
 public abstract class Enemy extends Character{
-    String image;
+
 
     protected Enemy(Stat stat) {
         super(stat);
@@ -30,9 +30,7 @@ public abstract class Enemy extends Character{
         return comment;
     }
 
-    public String getImage() {
-        return image;
-    }
+
 
 }
 
