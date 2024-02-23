@@ -46,7 +46,11 @@ public class EnemyRepository {
                 int max_pp = enemyDB.getInt("max_pp");
                 int basic_attack_point = enemyDB.getInt("basic_attack_point");
                 int basic_defence_point = enemyDB.getInt("basic_defence_point");
-                 return new Stat(name, max_hp, max_pp, basic_attack_point, basic_defence_point, image);
+                String tech1 = enemyDB.getString("tech1");
+                String tech2 = enemyDB.getString("tech2");
+                String tech3 = enemyDB.getString("tech3");
+                String tech4 = enemyDB.getString("tech4");
+                 return new Stat(name, max_hp, max_pp, basic_attack_point, basic_defence_point, image, tech1, tech2, tech3, tech4);
             }
         } catch(Exception e) {e.printStackTrace();}
 

@@ -36,5 +36,6 @@ public abstract class Player extends Character {
 
         return comment;
     }
+    public String getPosition() { return this.position;}
 
 }

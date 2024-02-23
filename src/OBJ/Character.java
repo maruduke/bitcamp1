@@ -8,8 +8,7 @@ import java.util.Vector;
 public abstract class Character {
 
     public Stat stat;
-    String tech1, tech2, tech3, tech4; // 기술 이름
-    
+
     Character(Stat stat) {
         this.stat = stat;
     }

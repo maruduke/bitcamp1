@@ -26,6 +26,7 @@ public class Poketmon implements Game {
     EnemyFactory enemyFactory = new EnemyFactory();
     PlayerFactory playerFactory = new PlayerFactory();
 
+
     Enemy enemy = null;
     String state = null;
 
@@ -46,6 +47,7 @@ public class Poketmon implements Game {
             String json = br.readLine();
             JSONObject obj = new JSONObject(json);
 
+
             System.out.println(obj.getString("name"));
             Player player = playerFactory.createPlayer(obj.getString("name"), obj.getString("position"), socket);
             players.add(player);
@@ -57,7 +59,6 @@ public class Poketmon implements Game {
     public void start() throws Exception {
         SendAndReceive sendAndReceive = new SendAndReceive(players);
         String gameLog = null;
-        sendAndReceive.broadcast();
 
         sendAndReceive.broadcast(""
             + "   █████████     █████████    ██████   ██████  ██████████        █████████   ███████████    █████████    ███████████    ███████████\n"
@@ -71,7 +72,6 @@ public class Poketmon implements Game {
             Thread.sleep(1500);
         // 게임 시작
         sendAndReceive.broadcast(enemy.getImage());
-        Thread.sleep(1000);
 
         while (!sequence.isEmpty()) {
             // player1 -> enemy -> player2 -> enemy 순서대로 반복
@@ -84,6 +84,8 @@ public class Poketmon implements Game {
                 continue;
             }
 
+            sendAndReceive.broadcast(menu(players, player, enemy));
+
             String command = sendAndReceive.turn(player.getSocket());
             // command 입력
 
@@ -91,20 +93,20 @@ public class Poketmon implements Game {
 
             sequence.add(player);
             System.out.println(gameLog);
-            System.out.print("gamelog:");
             sendAndReceive.broadcast(gameLog);
-            Thread.sleep(1000);
             state = "boss HP: " + enemy.getStat().getHp();
-            for (Player p : players) {
-                state += " " + p.getStat().getName() + " HP: " + p.getStat().getHp();
+            for(Player p : players) {
+                state += " " + p.getStat().getName() +" HP: " + p.getStat().getHp() ;
             }
 
-            try {
+
+
+            try{
                 Thread.sleep(1000);
-            } catch (Exception e) {
+            }catch(Exception e) {
 
             }
-            if (enemy.isDead()) {
+            if(enemy.isDead()) {
                 sendAndReceive.broadcast("Players Win");
                 return;
             }
@@ -127,8 +129,43 @@ public class Poketmon implements Game {
 
         sendAndReceive.broadcast("Players defeat");
 
+
         return;
 
+    }
+
+    public String menu(List<Player> players, Player turn,Enemy enemy) throws IOException {
+//        System.out.println("+------------------------------+------+--------------------------------+");
+//        System.out.printf("     +--      HP %-2d / %-2d", enemy.getStat().getHp(), enemy.getStat().getMax_hp());
+//        System.out.printf("       %-18s", enemy.getStat().getName());
+//        System.out.printf("MP %-2d / %-2d      --+\n", enemy.getStat().getPp(), enemy.getStat().getMax_pp());
+//        System.out.println("+------------------------------+------+--------------------------------+");
+//        printPlayerInfo(players.get(0).getStat().getName(), players.get(0).getStat().getHp(),players.get(0).getStat().getMax_hp(), players.get(0).getStat().getPp(), players.get(0).getStat().getMax_pp());
+//        printPlayerInfo(players.get(1).getStat().getName(), players.get(1).getStat().getHp(), players.get(1).getStat().getMax_hp(),players.get(1).getStat().getPp(), players.get(1).getStat().getMax_pp());
+//        System.out.printf("[1] 기본공격\n");
+//        System.out.println("[2] 스킬2");
+//        System.out.println("[3] 스킬2");
+//        System.out.println("[4] 스킬3");
+//        System.out.println("+----------------------------------------------------------------------+");
+//        System.out.printf(">>  %s의 턴입니다. >>\n", turn.getStat().getName());
+        return enemy.getStat().getImage()
+            + "\n+------------------------------+------+--------------------------------+\n"
+            + String.format("     +--      HP %-2d / %-2d", enemy.getStat().getHp(), enemy.getStat().getMax_hp())
+            + String.format("        %-18s", enemy.getStat().getName())
+            + String.format(" MP %-2d / %-2d      --+\n", enemy.getStat().getPp(), enemy.getStat().getMax_pp())
+            + "+------------------------------+------+--------------------------------+\n"
+            + printPlayerInfo(players.get(0).getStat().getName(), players.get(0).getStat().getHp(),players.get(0).getStat().getMax_hp(), players.get(0).getStat().getPp(), players.get(0).getStat().getMax_pp())
+            + printPlayerInfo(players.get(1).getStat().getName(), players.get(1).getStat().getHp(), players.get(1).getStat().getMax_hp(),players.get(1).getStat().getPp(), players.get(1).getStat().getMax_pp())
+            + String.format("[1] %s\n",turn.getStat().getTech1())
+            + String.format("[2] %s\n",turn.getStat().getTech2())
+            + String.format("[3] %s\n",turn.getStat().getTech3())
+            + String.format("[4] %s\n",turn.getStat().getTech4())
+            + "+----------------------------------------------------------------------+\n"
+            + String.format(">>  %s의 턴입니다. >>\n", turn.getStat().getName());
+    }
+    private String printPlayerInfo(String name, int hp, int maxHP, int mp, int maxMP) {
+        return String.format("  %-30s\n", name)
+            + String.format("  > HP %-2d / %-2d   MP %-2d / %-2d\n", hp, maxHP, mp, maxMP);
     }
 }
 
