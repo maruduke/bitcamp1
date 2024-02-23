@@ -35,7 +35,7 @@ public class Warrior extends Player {
 
     @Override
     public String tech4(Enemy enemy, List<Player> characters) {
-        enemy.heal(10);
+        this.heal(10);
         return this.getStat().getName() + "이 회복을 사용하였습니다.";
     }
 

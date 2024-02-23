@@ -15,9 +15,11 @@ public class PlayerFactory {
         Stat stat = repository.createPlayerStat(name, position);
 
         Player player = null;
-        if(position.equals("Warrior")) {
+        if(position.equals("warrior")) {
+            // 전사 직업 생성
             player = new Warrior(stat,socket,position);
         } else {
+            // 직업이 존재하지 않을 경우 novis 생성
             player = new Warrior(stat, socket, "Novis");
         }
 
