@@ -20,6 +20,7 @@ public class Server {
 
         final int port = 9000;
         EnemyFactory enemyFactory = new EnemyFactory();
+        System.out.println("server start...");
 
         try {
             ServerSocket serverSocket = new ServerSocket(port);
