@@ -84,7 +84,7 @@ public class Poketmon implements Game{
             gameLog = player.activate(command, enemy, sequence.stream().toList());
 
             sequence.add(player);
-            menu(players, player, enemy);
+            sendAndReceive.broadcast(menu(players, player, enemy));
             System.out.println(gameLog);
             sendAndReceive.broadcast(gameLog);
             state = "boss HP: " + enemy.getStat().getHp();
@@ -124,25 +124,38 @@ public class Poketmon implements Game{
         return;
 
     }
-    public void menu(List<Player> players, Player turn,Enemy enemy) throws IOException {
-        String str = (players.get(0).getStat().getName())+"("+ players.get(0).getPosition()+ ")";
-        System.out.println(enemy.getImage());
-        System.out.print("+------------------------------+------+--------------------------------+\n");
-        System.out.print("|    +--      HP "+enemy.getStat().getHp()+" / "+enemy.getStat().getMax_hp()+"        "+enemy.getStat().getName()+"         MP "+enemy.getStat().getPp()+" / "+enemy.getStat().getMax_pp()+"      --+      |\n");
-        System.out.print("+------------------------------+------+--------------------------------+\n");
-        System.out.print(">>  " + turn.getStat().getName() + "의 턴입니다.\n") ;
-        System.out.print("+----------------------------------------------------------------------+\n");
-//        System.out.print(String.format("|%-29s :      : [1] %-12s           |\n",str,players.get(0).getStat().getTech1()));
-        System.out.printf("|  %-29s", str);
-        System.out.printf(" :      : [1] ");
-        System.out.printf("%-23s\n", players.get(0).getStat().getTech1());
 
-        System.out.print("|  HP "+ players.get(0).getStat().getHp() + " / " + players.get(0).getStat().getMax_hp() +  "   MP " +players.get(0).getStat().getPp() + " / " +  players.get(0).getStat().getMax_pp() +"     :      : [2] "+ String.format("%-12s",(players.get(0).getStat().getTech2()))+"             |  \n");
-        System.out.print("|    "+String.format("%-26s",(players.get(1).getStat().getName())+"("+ players.get(1).getPosition()+ ")")+ ":      : [3] "+String.format("%-12s",(players.get(0).getStat().getTech3()))+"             |\n");
-        System.out.print("|  HP "+ players.get(1).getStat().getHp() + " / " + players.get(1).getStat().getMax_hp() +  "   MP " +players.get(1).getStat().getPp() + " / " +  players.get(1).getStat().getMax_pp() +"     :      : [4] "+ String.format("%-12s",(players.get(0).getStat().getTech4()))+"             |  \n");
-        System.out.print("+----------------------------------------------------------------------+\n");
-
-
+    public String menu(List<Player> players, Player turn,Enemy enemy) throws IOException {
+//        System.out.println("+------------------------------+------+--------------------------------+");
+//        System.out.printf("     +--      HP %-2d / %-2d", enemy.getStat().getHp(), enemy.getStat().getMax_hp());
+//        System.out.printf("       %-18s", enemy.getStat().getName());
+//        System.out.printf("MP %-2d / %-2d      --+\n", enemy.getStat().getPp(), enemy.getStat().getMax_pp());
+//        System.out.println("+------------------------------+------+--------------------------------+");
+//        printPlayerInfo(players.get(0).getStat().getName(), players.get(0).getStat().getHp(),players.get(0).getStat().getMax_hp(), players.get(0).getStat().getPp(), players.get(0).getStat().getMax_pp());
+//        printPlayerInfo(players.get(1).getStat().getName(), players.get(1).getStat().getHp(), players.get(1).getStat().getMax_hp(),players.get(1).getStat().getPp(), players.get(1).getStat().getMax_pp());
+//        System.out.printf("[1] 기본공격\n");
+//        System.out.println("[2] 스킬2");
+//        System.out.println("[3] 스킬2");
+//        System.out.println("[4] 스킬3");
+//        System.out.println("+----------------------------------------------------------------------+");
+//        System.out.printf(">>  %s의 턴입니다. >>\n", turn.getStat().getName());
+        return "+------------------------------+------+--------------------------------+\n"
+            + String.format("     +--      HP %-2d / %-2d", enemy.getStat().getHp(), enemy.getStat().getMax_hp())
+            + String.format("        %-18s", enemy.getStat().getName())
+            + String.format(" MP %-2d / %-2d      --+\n", enemy.getStat().getPp(), enemy.getStat().getMax_pp())
+            + "+------------------------------+------+--------------------------------+\n"
+            + printPlayerInfo(players.get(0).getStat().getName(), players.get(0).getStat().getHp(),players.get(0).getStat().getMax_hp(), players.get(0).getStat().getPp(), players.get(0).getStat().getMax_pp())
+            + printPlayerInfo(players.get(1).getStat().getName(), players.get(1).getStat().getHp(), players.get(1).getStat().getMax_hp(),players.get(1).getStat().getPp(), players.get(1).getStat().getMax_pp())
+            + String.format("[1] %s\n",turn.getStat().getTech1())
+            + String.format("[2] %s\n",turn.getStat().getTech2())
+            + String.format("[3] %s\n",turn.getStat().getTech3())
+            + String.format("[4] %s\n",turn.getStat().getTech4())
+            + "+----------------------------------------------------------------------+\n"
+            + String.format(">>  %s의 턴입니다. >>\n", turn.getStat().getName());
+    }
+    private String printPlayerInfo(String name, int hp, int maxHP, int mp, int maxMP) {
+        return String.format("  %-30s\n", name)
+            + String.format("  > HP %-2d / %-2d   MP %-2d / %-2d\n", hp, maxHP, mp, maxMP);
     }
 }
 
