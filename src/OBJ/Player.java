@@ -22,16 +22,16 @@ public abstract class Player extends Character {
     }
 
     @Override
-    public String activate(String commnad, Enemy enemy, List<Player> players) {
+    public String activate(String command, Enemy enemy, List<Player> players) {
         String comment = null;
 
-        if(commnad.equals("1"))
+        if(command.equals("1"))
             comment = tech1(enemy, players);
-        else if(commnad.equals("2") )
+        else if(command.equals("2") )
             comment = tech2(enemy, players);
-        else if(commnad.equals("3"))
+        else if(command.equals("3"))
             comment = tech3(enemy, players);
-        else if(commnad.equals("4"))
+        else if(command.equals("4"))
             comment = tech4(enemy,players);
 
         return comment;

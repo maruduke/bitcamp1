@@ -20,7 +20,8 @@ public class Server {
 
         final int port = 9000;
         EnemyFactory enemyFactory = new EnemyFactory();
-
+        System.out.println("server start...");
+//
         try {
             ServerSocket serverSocket = new ServerSocket(port);
             String mainThreadName = Thread.currentThread().getName();
@@ -68,9 +69,9 @@ class GameStart implements Runnable {
     public void run() {
         try {
             poketmon.enterRoom(sockets);
-            System.out.println("---------------- game starting ----------------");
+
             poketmon.start();
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
