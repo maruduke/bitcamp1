@@ -14,7 +14,7 @@ public class PlayerFactory {
     public Player createPlayer(String name, String position, Socket socket) {
 
         Player player = null;
-        if(position.equals("warrior")) {
+        if(position.equals("Knight")) {
             Stat stat = repository.createPlayerStat(name, position);
             // 전사 직업 생성
             player = new Warrior(stat,socket,position);

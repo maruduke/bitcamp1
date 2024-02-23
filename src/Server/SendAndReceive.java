@@ -20,7 +20,7 @@ public class SendAndReceive {
 
             OutputStream out = s.getOutputStream();
             PrintWriter pw = new PrintWriter(new OutputStreamWriter(out) );
-            System.out.println(ThreadName + ": \n" + GameLog);
+            System.out.println(ThreadName + ": " + GameLog);
             pw.println(GameLog);
             pw.flush();
         }
@@ -48,7 +48,7 @@ public class SendAndReceive {
         }
         System.out.println("입력 대기 중");
         String command = br.readLine();
-        System.out.println("입력 출력 중" + command);
+        System.out.println("입력 출력 중: " + command);
         return command;
     }
 
