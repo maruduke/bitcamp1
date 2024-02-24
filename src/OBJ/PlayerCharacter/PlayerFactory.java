@@ -26,8 +26,8 @@ public class PlayerFactory {
         }
         else {
             Stat stat = repository.createPlayerStat(name, "novis");
-            // 직업이 존재하지 않을 경우 novis 생성
-            player = new Warrior(stat, socket, "novis");
+            // 직업이 존재하지 않을 경우 warrior 생성
+            player = new Warrior(stat, socket, "warrior");
         }
 
         return player;

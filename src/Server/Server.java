@@ -71,7 +71,7 @@ class GameStart implements Runnable {
             poketmon.enterRoom(sockets);
             System.out.println("---------------- game starting ----------------");
             poketmon.start();
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

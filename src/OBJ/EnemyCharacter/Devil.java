@@ -23,28 +23,36 @@ public class Devil extends Enemy {
         int random = (randomVal) % characters.size();
         System.out.println("random code:" + random);
         int damage = characters.get(random).hit(this.stat.getAttackPoint());
-        String log = stat.getName() + "이 "+ characters.get(random).getStat().getName() + "을 공격하였습니다. 데미지: " + damage;
+
+        String log = this.getStat().getName() + "의 " + this.getStat().getTech2() + "!!!\n" +
+            characters.get(random).getStat().getName() + "이 " + damage + "의 피해량을 입었습니다.";
         return log;
     }
 
     @Override
     public String tech2(Enemy enemy, List<Player> characters) {
         int random = ((int) Math.random()*10) % characters.size();
-        int damage = characters.get(random).hit(this.stat.getAttackPoint() + 10);
-        String log = stat.getName() + "이" + characters.get(random).getStat().getName() + "에게 강타를 사용하였습니다. 데미지: " + damage;
+        int damage = characters.get(random).hit(this.getStat().getAttackPoint()*2);
+        this.usePp(10);
+        String log = this.getStat().getName() + "의 " + this.getStat().getTech2() + "!!!\n" +
+           characters.get(random).getStat().getName() + "이 " + damage + "의 피해량을 입었습니다.";
         return log;
     }
 
     @Override
     public String tech3(Enemy enemy, List<Player> characters) {
-        enemy.strength(10);
-        return "적의 공격력이 상승하였습니다.";
+        this.usePp(10);
+        this.defence(10);
+        return this.getStat().getName() + "의 " + this.getStat().getTech2() + "!!!\n" +
+            this.getStat().getName() + "의 방어력이 상승 했습니다.";
     }
 
     @Override
     public String tech4(Enemy enemy, List<Player> characters) {
+        this.usePp(10);
         enemy.heal(10);
-        return "적이 회복을 사용하였습니다.";
+        return this.getStat().getName() + "의 " + this.getStat().getTech2() + "!!!\n" +
+            this.getStat().getName() + "의 체력이 회복 되었습니다.";
     }
 
 }

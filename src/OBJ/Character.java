@@ -26,6 +26,12 @@ public abstract class Character {
     public int strength(int up) {
         return this.stat.strength(up);
     }
+    public int defence(int up) {
+        return this.stat.defence(up);
+    }
+    public int usePp(int usePp){
+        return this.stat.usePp(usePp);
+    }
 
     public boolean isDead() {
         return stat.getHp() <= 0 ? true : false;

@@ -23,7 +23,7 @@ public class Healer extends Player {
     public String tech2(Enemy enemy, List<Player> characters) {
 
         int damage = enemy.hit(this.stat.getAttackPoint() + 10);
-        String log = enemy.getStat().getName() + "에게 강타를 사용하였습니다. 데미지: " + damage;
+        String log = enemy.getStat().getName() + "에게" +enemy.getStat().getTech2() +"를 사용하였습니다. 피해량: " + damage;
         return log;
     }
 
