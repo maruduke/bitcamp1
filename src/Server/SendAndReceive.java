@@ -32,6 +32,11 @@ public class SendAndReceive {
 
         System.out.println("입력 대기 중");
         String command = null;
+
+        while(br.ready()) {
+            br.readLine();
+        }
+
         while(command == null) {
             command = br.readLine();
         }

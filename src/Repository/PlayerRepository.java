@@ -17,7 +17,7 @@ public class PlayerRepository {
         try {
             String DB_USER = "bitcamp01";
             String DB_PASSWORD = "qwer1234";
-            String DB_URL = "jdbc:mysql://localhost:3306/turnbased?useUnicode=true&characterEncoding=utf8";
+            String DB_URL = "jdbc:mysql://192.168.0.66:3306/turnbased?useUnicode=true&characterEncoding=utf8";
             conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
         } catch(Exception e) {e.printStackTrace();}
         return conn;

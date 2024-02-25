@@ -4,8 +4,6 @@ import OBJ.Enemy;
 import OBJ.EnemyCharacter.EnemyFactory;
 import OBJ.Player;
 import OBJ.PlayerCharacter.PlayerFactory;
-import OBJ.PlayerCharacter.Warrior;
-import OBJ.Statistics.Stat;
 import Server.SendAndReceive;
 import org.json.JSONObject;
 
@@ -71,7 +69,7 @@ public class Poketmon implements Game {
             + "  ░░░░░░░░░   ░░░░░   ░░░░░  ░░░░░     ░░░░░  ░░░░░░░░░░        ░░░░░░░░░      ░░░░░     ░░░░░   ░░░░░  ░░░░░   ░░░░░     ░░░░░    ");
             Thread.sleep(1500);
         // 게임 시작
-        sendAndReceive.broadcast(enemy.getImage());
+        sendAndReceive.broadcast(enemy.getStat().getImage());
 
         while (!sequence.isEmpty()) {
             // player1 -> enemy -> player2 -> enemy 순서대로 반복
@@ -135,19 +133,7 @@ public class Poketmon implements Game {
     }
 
     public String menu(List<Player> players, Player turn,Enemy enemy) throws IOException {
-//        System.out.println("+------------------------------+------+--------------------------------+");
-//        System.out.printf("     +--      HP %-2d / %-2d", enemy.getStat().getHp(), enemy.getStat().getMax_hp());
-//        System.out.printf("       %-18s", enemy.getStat().getName());
-//        System.out.printf("MP %-2d / %-2d      --+\n", enemy.getStat().getPp(), enemy.getStat().getMax_pp());
-//        System.out.println("+------------------------------+------+--------------------------------+");
-//        printPlayerInfo(players.get(0).getStat().getName(), players.get(0).getStat().getHp(),players.get(0).getStat().getMax_hp(), players.get(0).getStat().getPp(), players.get(0).getStat().getMax_pp());
-//        printPlayerInfo(players.get(1).getStat().getName(), players.get(1).getStat().getHp(), players.get(1).getStat().getMax_hp(),players.get(1).getStat().getPp(), players.get(1).getStat().getMax_pp());
-//        System.out.printf("[1] 기본공격\n");
-//        System.out.println("[2] 스킬2");
-//        System.out.println("[3] 스킬2");
-//        System.out.println("[4] 스킬3");
-//        System.out.println("+----------------------------------------------------------------------+");
-//        System.out.printf(">>  %s의 턴입니다. >>\n", turn.getStat().getName());
+
         return enemy.getStat().getImage()
             + "\n+------------------------------+------+--------------------------------+\n"
             + String.format("     +--      HP %-2d / %-2d", enemy.getStat().getHp(), enemy.getStat().getMax_hp())
