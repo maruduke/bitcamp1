@@ -13,30 +13,33 @@ public class Warrior extends Player {
     }
 
     @Override
-    public String tech1(Enemy enemy, List<Player> characters) {
+    public String tech1(Enemy enemy, List<Player> characters) { // 기본공격
         int damage = enemy.hit(this.stat.getAttackPoint());
-        String log = enemy.getStat().getName() + "을 공격하였습니다. 데미지: " + damage;
+//        String log = enemy.getStat().getName() + "에게" +enemy.getStat().getTech2() +"를 사용하였습니다. 피해량: " + damage;
+        String log = this.getStat().getTech1() + "!!!\n" + enemy.getStat().getName() + "이 " + damage + "의 피해를 입었습니다.";
         return log;
     }
 
     @Override
-    public String tech2(Enemy enemy, List<Player> characters) {
-
-        int damage = enemy.hit(this.stat.getAttackPoint() + 10);
-        String log = enemy.getStat().getName() + "에게 강타를 사용하였습니다. 데미지: " + damage;
-        return log;
-    }
-
-    @Override
-    public String tech3(Enemy enemy, List<Player> characters) {
+    public String tech2(Enemy enemy, List<Player> characters) { // 버프
         this.strength(10);
-        return this.getStat().getName() + "의 공격력이 상승하였습니다.";
+        this.usePp(5);
+        return this.getStat().getName() + "님의 공격력이 상승하였습니다.";
     }
 
     @Override
-    public String tech4(Enemy enemy, List<Player> characters) {
-        this.heal(10);
-        return this.getStat().getName() + "이 회복을 사용하였습니다.";
+    public String tech3(Enemy enemy, List<Player> characters) { // 기술1
+        int damage = enemy.hit(this.stat.getAttackPoint()*2);
+        this.usePp(5);
+        String log = this.getStat().getTech3() + "!!!\n" + enemy.getStat().getName() + "이 " + damage + "의 피해를 입었습니다.";
+        return log;
     }
 
+    @Override
+    public String tech4(Enemy enemy, List<Player> characters) { // 필살기
+        int damage = enemy.hit(this.stat.getAttackPoint()*3);
+        this.usePp(5);
+        String log = this.getStat().getTech4() + "!!!\n" + enemy.getStat().getName() + "이 " + damage + "의 피해를 입었습니다.";
+        return log;
+    }
 }

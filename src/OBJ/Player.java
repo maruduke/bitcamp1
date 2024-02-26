@@ -33,7 +33,8 @@ public abstract class Player extends Character {
             comment = tech3(enemy, players);
         else if(command.equals("4"))
             comment = tech4(enemy,players);
-
+        else
+            comment = tech1(enemy, players);
         return comment;
     }
     public String getPosition() { return this.position;}

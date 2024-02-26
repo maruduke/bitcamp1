@@ -8,12 +8,14 @@ import java.util.Vector;
 public abstract class Character {
 
     public Stat stat;
+    public boolean turn = false;
 
     Character(Stat stat) {
         this.stat = stat;
     }
 
 
+    public boolean getTurn () { this.turn = !turn; return this.turn;}
     public int hit(int damage) {
         // 공격 받음
         return this.stat.hit(damage);
@@ -25,6 +27,12 @@ public abstract class Character {
 
     public int strength(int up) {
         return this.stat.strength(up);
+    }
+    public int defence(int up) {
+        return this.stat.defence(up);
+    }
+    public int usePp(int usePp){
+        return this.stat.usePp(usePp);
     }
 
     public boolean isDead() {

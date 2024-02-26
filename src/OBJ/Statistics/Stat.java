@@ -78,6 +78,14 @@ public class Stat {
         this.attackPoint += up;
         return up;
     }
+    public int defence(int up) {
+        this.defencePoint += up;
+        return up;
+    }
+    public int usePp(int usePp) {
+        this.pp -= usePp;
+        return usePp;
+    }
     public boolean isDead() {
         return this.hp <= 0 ? true : false;
     }
