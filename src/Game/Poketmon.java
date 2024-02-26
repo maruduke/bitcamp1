@@ -30,7 +30,6 @@ public class Poketmon implements Game{
 
 
 
-
     Enemy enemy = null;
     String state = null;
     public Poketmon(Enemy enemy) {
@@ -66,24 +65,11 @@ public class Poketmon implements Game{
     public void start() throws Exception {
         SendAndReceive sendAndReceive = new SendAndReceive(players);
         String gameLog = null;
-        try {
-        sendAndReceive.broadcast(players.get(0).getStat().getImage());
-        Thread.sleep(1500);
-        sendAndReceive.broadcast(players.get(1).getStat().getImage());
-        Thread.sleep(1500);
-        sendAndReceive.broadcast(""
-            + "   █████████     █████████    ██████   ██████  ██████████        █████████   ███████████    █████████    ███████████    ███████████\n"
-            + "  ███░░░░░███   ███░░░░░███  ░░██████ ██████  ░░███░░░░░█       ███░░░░░███░ █░░░███░░░█   ███░░░░░███  ░░███░░░░░███  ░█░░░███░░░█\n"
-            + " ███     ░░░   ░███    ░███   ░███░█████░███   ░███  █ ░       ░███    ░░░ ░    ░███  ░   ░███    ░███   ░███    ░███  ░   ░███  ░ \n"
-            + "░███           ░███████████   ░███░░███ ░███   ░██████         ░░█████████      ░███      ░███████████   ░██████████       ░███    \n"
-            + "░███    █████  ░███░░░░░███   ░███ ░░░  ░███   ░███░░█          ░░░░░░░░███     ░███      ░███░░░░░███   ░███░░░░░███      ░███    \n"
-            + "░░███    ░██   ░███    ░███   ░███      ░███   ░███ ░   █       ███    ░███     ░███      ░███    ░███   ░███    ░███      ░███    \n"
-            + " ░░█████████   █████   █████  █████     █████  ██████████      ░░█████████      █████     █████   █████  █████   █████     █████   \n"
-            + "  ░░░░░░░░░   ░░░░░   ░░░░░  ░░░░░     ░░░░░  ░░░░░░░░░░        ░░░░░░░░░      ░░░░░     ░░░░░   ░░░░░  ░░░░░   ░░░░░     ░░░░░    ");
 
-            Thread.sleep(1500);
-        } catch (Exception e) { e.printStackTrace();}
+
+
         // 게임 시작
+        startPrint(sendAndReceive);
 
         while(!sequence.isEmpty()) {
             // player1 -> enemy -> player2 -> enemy 순서대로 반복
@@ -95,40 +81,46 @@ public class Poketmon implements Game{
                 continue;
             }
 
-            Thread.sleep(1500);
             sendAndReceive.broadcast(menu(players, player, enemy));
 
-            String command = sendAndReceive.turn(player.getSocket());
+            String command = sendAndReceive.turn(player, player.getSocket());
             // command 입력
 
             gameLog = player.activate(command, enemy, sequence.stream().toList());
-            Thread.sleep(1500);
 
             sequence.add(player);
 
             System.out.println(gameLog);
             sendAndReceive.broadcast(gameLog);
-            Thread.sleep(1500);
 
-
-
-            Thread.sleep(1500);
 
             if(enemy.isDead()) {
-                sendAndReceive.broadcast("Players Win");
+                sendAndReceive.broadcast(enemy.getStat().getName() + " 사냥에 성공 했습니다!");
+                sendAndReceive.broadcast(""
+                    + "    *       ██████╗ ██╗      ███████╗  █████╗  ██████╗    *       \n"
+                    + "           ██╔════╝ ██║      ██╔════╝ ██╔══██╗ ██╔══██╗        *  \n"
+                    + "      *    ██║      ██║      █████╗   ███████║ ██████╔╝          \n"
+                    + "           ██║      ██║      ██╔══╝   ██╔══██║ ██╔══██╗   *       \n"
+                    + "   *       ╚██████╗ ███████╗ ███████╗ ██║  ██║ ██║  ██║          ");
                 return;
             }
 
             gameLog = enemy.activate("1", enemy, sequence.stream().toList());
             System.out.println(gameLog);
+            sendAndReceive.broadcast(">>  "+ enemy.getStat().getName() + "의 턴입니다.");
             sendAndReceive.broadcast(gameLog);
-            Thread.sleep(1500);
 
 
         }
-
-        sendAndReceive.broadcast("Players defeat");
-
+        sendAndReceive.broadcast(enemy.getStat().getName() + " 사냥에 실패 했습니다.");
+        sendAndReceive.broadcast(" "
+            + "         ██████████     █████████    ██████████  ██████████  \n"
+            + "        ░░███░░░░███   ███░░░░░███  ░░███░░░░░█░░ ███░░░░███ \n"
+            + "        ░███   ░░███  ░███    ░███   ░███  █ ░   ░███   ░░███\n"
+            + "        ░███    ░███  ░███████████   ░██████     ░███    ░███\n"
+            + "        ░███    ░███  ░███░░░░░███   ░███░░█     ░███    ░███\n"
+            + "        ░███    ███   ░███    ░███   ░███ ░   █  ░███    ███ \n"
+            + "        ██████████    █████   █████  ██████████  ██████████  .....");
 
         return;
 
@@ -136,21 +128,15 @@ public class Poketmon implements Game{
 
     public String menu(List<Player> players, Player turn,Enemy enemy) throws IOException {
         return enemy.getStat().getImage()
-            + "\n+------------------------------+------+--------------------------------+\n"
-            + String.format("     +--      HP %-2d / %-2d", enemy.getStat().getHp(), enemy.getStat().getMax_hp())
-            + String.format("        %-17s", enemy.getStat().getName())
+            + "\n+-----------------------------+----------+-----------------------------+\n"
+            + String.format("     +--      HP %-3d / %-3d", enemy.getStat().getHp(), enemy.getStat().getMax_hp())
+            + String.format("       %-15s", enemy.getStat().getName())
             + String.format("MP %-2d / %-2d     --+\n", enemy.getStat().getPp(), enemy.getStat().getMax_pp())
-            + "+------------------------------+------+--------------------------------+\n"
-            + " █ Player1-"
+            + "+-----------------------------+----------+-----------------------------+\n"
+            + " █ Player1-" + (players.get(0).isDead() ? "Dead" : "")
             + printPlayerInfo(players.get(0).getStat().getName(),players.get(0).getPosition(), players.get(0).getStat().getHp(),players.get(0).getStat().getMax_hp(), players.get(0).getStat().getPp(), players.get(0).getStat().getMax_pp())
-            + " █ Player2-"
-            + printPlayerInfo(players.get(1).getStat().getName(),players.get(1).getPosition(), players.get(1).getStat().getHp(), players.get(1).getStat().getMax_hp(),players.get(1).getStat().getPp(), players.get(1).getStat().getMax_pp())
-            + String.format("[1] %s\n",turn.getStat().getTech1())
-            + String.format("[2] %s\n",turn.getStat().getTech2())
-            + String.format("[3] %s\n",turn.getStat().getTech3())
-            + String.format("[4] %s\n",turn.getStat().getTech4())
-            + "+----------------------------------------------------------------------+\n"
-            + String.format(">>  %s(%s)의 턴입니다. >>\n", turn.getStat().getName(), turn.getPosition());
+            + " █ Player2-" + (players.get(1).isDead() ? "Dead" : "")
+            + printPlayerInfo(players.get(1).getStat().getName(),players.get(1).getPosition(), players.get(1).getStat().getHp(), players.get(1).getStat().getMax_hp(),players.get(1).getStat().getPp(), players.get(1).getStat().getMax_pp());
     }
     private String printPlayerInfo(String name, String position, int hp, int maxHP, int mp, int maxMP) {
         return String.format(" %s", name)
@@ -161,6 +147,20 @@ public class Poketmon implements Game{
         Random random= new Random();
         int randomVal = random.nextInt(3)+1;
         return enemyTech().toString();
+    }
+    public void startPrint(SendAndReceive sendAndReceive) throws Exception{
+        sendAndReceive.broadcast(players.get(0).getStat().getImage());
+        sendAndReceive.broadcast(players.get(1).getStat().getImage());
+        sendAndReceive.broadcast(""
+            + "   █████████     █████████    ██████   ██████  ██████████        █████████   ███████████    █████████    ███████████    ███████████\n"
+            + "  ███░░░░░███   ███░░░░░███  ░░██████ ██████  ░░███░░░░░█       ███░░░░░███░ █░░░███░░░█   ███░░░░░███  ░░███░░░░░███  ░█░░░███░░░█\n"
+            + " ███     ░░░   ░███    ░███   ░███░█████░███   ░███  █ ░       ░███    ░░░ ░    ░███  ░   ░███    ░███   ░███    ░███  ░   ░███  ░ \n"
+            + "░███           ░███████████   ░███░░███ ░███   ░██████         ░░█████████      ░███      ░███████████   ░██████████       ░███    \n"
+            + "░███    █████  ░███░░░░░███   ░███ ░░░  ░███   ░███░░█          ░░░░░░░░███     ░███      ░███░░░░░███   ░███░░░░░███      ░███    \n"
+            + "░░███    ░██   ░███    ░███   ░███      ░███   ░███ ░   █       ███    ░███     ░███      ░███    ░███   ░███    ░███      ░███    \n"
+            + " ░░█████████   █████   █████  █████     █████  ██████████      ░░█████████      █████     █████   █████  █████   █████     █████   \n"
+            + "  ░░░░░░░░░   ░░░░░   ░░░░░  ░░░░░     ░░░░░  ░░░░░░░░░░        ░░░░░░░░░      ░░░░░     ░░░░░   ░░░░░  ░░░░░   ░░░░░     ░░░░░    ");
+
     }
 }
 

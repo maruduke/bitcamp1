@@ -24,8 +24,8 @@ public class Devil extends Enemy {
         System.out.println("random code:" + random);
         int damage = characters.get(random).hit(this.stat.getAttackPoint());
 
-        String log = this.getStat().getName() + "의 " + this.getStat().getTech2() + "!!!\n" +
-            characters.get(random).getStat().getName() + "이 " + damage + "의 피해량을 입었습니다.";
+        String log = this.getStat().getName() + "의 " + this.getStat().getTech1() + "!!!\n" +
+            characters.get(random).getStat().getName() + "님이 " + damage + "의 피해량을 입었습니다.";
         return log;
     }
 
@@ -35,15 +35,15 @@ public class Devil extends Enemy {
         int damage = characters.get(random).hit(this.getStat().getAttackPoint()*2);
         this.usePp(10);
         String log = this.getStat().getName() + "의 " + this.getStat().getTech2() + "!!!\n" +
-           characters.get(random).getStat().getName() + "이 " + damage + "의 피해량을 입었습니다.";
+           characters.get(random).getStat().getName() + "님이 " + damage + "의 피해량을 입었습니다.";
         return log;
     }
 
     @Override
     public String tech3(Enemy enemy, List<Player> characters) {
         this.usePp(10);
-        this.defence(10);
-        return this.getStat().getName() + "의 " + this.getStat().getTech2() + "!!!\n" +
+        this.defence(7);
+        return this.getStat().getName() + "의 " + this.getStat().getTech3() + "!!!\n" +
             this.getStat().getName() + "의 방어력이 상승 했습니다.";
     }
 
@@ -51,7 +51,7 @@ public class Devil extends Enemy {
     public String tech4(Enemy enemy, List<Player> characters) {
         this.usePp(10);
         enemy.heal(10);
-        return this.getStat().getName() + "의 " + this.getStat().getTech2() + "!!!\n" +
+        return this.getStat().getName() + "의 " + this.getStat().getTech4() + "!!!\n" +
             this.getStat().getName() + "의 체력이 회복 되었습니다.";
     }
 

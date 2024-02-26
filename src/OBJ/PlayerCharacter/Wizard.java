@@ -25,7 +25,7 @@ public class Wizard extends Player {
     public String tech2(Enemy enemy, List<Player> characters) { // 버프
         this.strength(10);
         this.usePp(5);
-        return this.getStat().getName() + "의 공격력이 상승하였습니다.";
+        return this.getStat().getName() + "님의 공격력이 상승하였습니다.";
     }
 
     @Override

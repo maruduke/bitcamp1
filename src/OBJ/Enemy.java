@@ -18,6 +18,7 @@ public abstract class Enemy extends Character{
         Random random = new Random();
         String enemyTech = Integer.toString(random.nextInt(4) + 1);
 
+
         String comment = "";
 
         switch (enemyTech) {

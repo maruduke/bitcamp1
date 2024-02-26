@@ -16,7 +16,7 @@ public class EnemyFactory {
         Random random = new Random();
 
         Enemy enemy = null;
-        int randomVal = random.nextInt(3) + 1;
+        int randomVal = random.nextInt(4)+1;
 
         Stat stat = enemyRepository.createEnemyStat( randomVal );
 

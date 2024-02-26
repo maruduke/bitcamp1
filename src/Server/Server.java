@@ -17,7 +17,6 @@ import java.util.List;
 public class Server {
 
     public static void main(String[] args) {
-
         final int port = 9000;
         EnemyFactory enemyFactory = new EnemyFactory();
         System.out.println("server start...");
